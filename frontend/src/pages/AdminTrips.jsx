@@ -34,7 +34,7 @@ const AdminTrips = () => {
     try {
       const authHeaders = getAuthHeaders();
       if (!authHeaders) return;
-      const res = await axios.get("http://localhost:5000/api/admin/trips", authHeaders);
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/admin/trips`, authHeaders);
       console.log(res.data.trips)
       setTrips(res.data.trips);
       setCounts(res.data.counts);
@@ -49,7 +49,7 @@ const AdminTrips = () => {
     try {
       const authHeaders = getAuthHeaders();
       if (!authHeaders) return;
-      const res = await axios.get("http://localhost:5000/api/admin/guides", authHeaders);
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/admin/guides`, authHeaders);
       setGuides(res.data.guides);
     } catch (err) {
       console.error("Error fetching guides:", err);
@@ -86,7 +86,7 @@ const AdminTrips = () => {
       const authHeaders = getAuthHeaders();
       if (!authHeaders) return;
       await axios.patch(
-        `http://localhost:5000/api/admin/trips/${selectedTrip._id}/assign-guide`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/admin/trips/${selectedTrip._id}/assign-guide`,
         { guideId: selectedGuideId },
         authHeaders
       );

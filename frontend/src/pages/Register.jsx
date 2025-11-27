@@ -50,7 +50,7 @@ const Register = () => {
     data.append("aadhar", aadharCard);
 
     try {
-      const res = await axios.post("http://localhost:5000/api/register", data, {
+      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/register`, data, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 

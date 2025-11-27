@@ -3,9 +3,10 @@ import io from "socket.io-client";
 import { sendMessage, getTripMessages } from "../services/chatService";
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
 
-const socket = io("http://localhost:5000", {
+const socket = io(import.meta.env.VITE_BACKEND_URL, {
   transports: ["websocket"],
 });
+
 
 const ChatWindow = ({ tripId, currentUser }) => {
   const [messages, setMessages] = useState([]);

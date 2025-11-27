@@ -14,12 +14,12 @@ const TravelDiary = () => {
   const [previewUrl, setPreviewUrl] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false); // 🔹 Controls Add Story modal
-
+  
   // 🔹 Fetch all existing diary entries when component loads
   useEffect(() => {
     const fetchEntries = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/diary");
+        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/diary`);
         const data = await res.json();
         setEntries(data);
       } catch (err) {
@@ -61,7 +61,7 @@ const TravelDiary = () => {
 
     try {
       setSubmitting(true);
-      const res = await fetch("http://localhost:5000/api/diary", {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/diary`, {
         method: "POST",
         body: fd,
       });

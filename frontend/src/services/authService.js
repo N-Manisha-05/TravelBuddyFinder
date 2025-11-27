@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/auth";
+const API_URL =`${import.meta.env.VITE_BACKEND_URL}/api/auth`;
 
 // Register user
 export const registerUser = async (userData) => {
@@ -20,7 +20,7 @@ export const loginUser = async (userData) => {
 
 
 // Base URL
-const API_URLL = "http://localhost:5000/api/favorites";
+const API_URLL = `${import.meta.env.VITE_BACKEND_URL}/api/favorites`;
 
 // ✅ Get all favorites for logged-in user
 export const  getUserFavorites = async () => {
@@ -32,7 +32,7 @@ export const  getUserFavorites = async () => {
 export const addFavorite = async (tripId) => {
   try {
     const res = await axios.post(
-      `http://localhost:5000/api/favorites/${tripId}`,
+     `${import.meta.env.VITE_BACKEND_URL}/api/favorites/${tripId}`,
       {}, // no body needed
       { withCredentials: true }
     );

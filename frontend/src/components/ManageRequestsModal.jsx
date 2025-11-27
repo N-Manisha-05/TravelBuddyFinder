@@ -40,7 +40,7 @@ const ManageRequestsModal = ({
                 <div className="flex items-center gap-3">
                 {req.user?.avatar ? (
                     <img
-                      src={`http://localhost:5000${req.user.avatar}`}
+                      src={`${import.meta.env.VITE_BACKEND_URL}/${req.user.avatar}`}
                       alt={req.user.name}
                       className="w-10 h-10 rounded-full object-cover border"
                     />

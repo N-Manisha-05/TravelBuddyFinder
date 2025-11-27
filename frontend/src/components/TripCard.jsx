@@ -37,7 +37,7 @@ const TripCard = ({
 }) => {
 
   const imageUrl = trip?.image
-    ? `http://localhost:5000${trip.image}`
+    ? `${import.meta.env.VITE_BACKEND_URL}${trip.image}`
     : "https://placehold.co/600x400?text=Trip+Photo";
 
   const [showItineraryModal, setShowItineraryModal] = useState(false);
@@ -116,7 +116,7 @@ const showBlocked = (reason) => (
   try {
     setSafetyError(null);
     setLoadingSafety(true);
-    const res = await axios.post("http://localhost:5000/api/safety/score", {
+    const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/safety/score`, {
       destination: trip.destination,
       crowd, // optional, you can allow user to choose "holiday" or "normal"
       // month: optional override

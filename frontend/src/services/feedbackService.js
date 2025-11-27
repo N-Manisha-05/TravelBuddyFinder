@@ -1,5 +1,5 @@
 import axios from "axios";
-const API = "http://localhost:5000/api";
+const API = `${import.meta.env.VITE_BACKEND_URL}/api`;
 
 export const submitFeedback = async (tripId, toUserId, payload) => {
   const res = await axios.post(`${API}/feedback/${tripId}/${toUserId}`, payload, {

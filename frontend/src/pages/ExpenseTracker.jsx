@@ -20,7 +20,7 @@ paidBy: user?._id || "",
 
   const [editingExpenseId, setEditingExpenseId] = useState(null);
 
-  const API_BASE_URL = "http://localhost:5000/api/expenses";
+  const API_BASE_URL = `${import.meta.env.VITE_BACKEND_URL}/api/expenses`;
 
   axios.defaults.withCredentials = true;
 

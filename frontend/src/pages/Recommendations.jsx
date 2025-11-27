@@ -11,7 +11,7 @@ const Recommendations = () => {
 
   const fetchRecommendations = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/recommend", {
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/recommend`, {
         withCredentials: true,
       });
       setRecommendedTrips(res.data.recommended || []);

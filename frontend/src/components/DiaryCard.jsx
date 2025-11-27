@@ -5,7 +5,7 @@ const DiaryCard = ({ entry }) => {
     <div className="bg-white rounded-2xl shadow-md overflow-hidden w-full sm:w-80 hover:shadow-xl transition-all">
       {entry.photo && (
         <img
-          src={`http://localhost:5000${entry.photo}`}
+          src={`${import.meta.env.VITE_BACKEND_URL}${entry.photo}`}
           alt="Diary"
           className="w-full h-48 object-cover rounded-lg mt-2"
         />

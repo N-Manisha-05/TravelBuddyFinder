@@ -1,7 +1,7 @@
 // src/services/tripService.js
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/trips";
+const API_URL = `${import.meta.env.VITE_BACKEND_URL}/api/trips`;
 
 // ✅ Get public trips
 export const getPublicTrips = async () => {
@@ -88,37 +88,6 @@ export const getRequests = async (tripId) => {
     throw error;
   }
 };
-// ✅ Approve join request
-
-// export const approveRequest = async (tripId, userId) => {
-//   try {
-//     const res = await axios.put(
-//       `${API_URL}/${tripId}/requests/${userId}`,
-//       { action: "accepted" },
-//       { withCredentials: true }
-//     );
-//     return res.data;
-//   } catch (error) {
-//     console.error("Error approving request:", error);
-//     throw error;
-//   }
-// };
-
-// // ✅ Reject join request
-// export const rejectRequest = async (tripId, userId) => {
-//   try {
-//     const res = await axios.put(
-//       `${API_URL}/${tripId}/requests/${userId}`,
-//       { action: "rejected" },
-//       { withCredentials: true }
-//     );
-//     return res.data;
-//   } catch (error) {
-//     console.error("Error rejecting request:", error);
-//     throw error;
-//   }
-// };
-
 
 export const approveRequest = async (tripId, userId) => {
   const url = `${API_URL}/${tripId}/requests/${userId}`;
@@ -167,7 +136,7 @@ export const respondToRequest = async (tripId, userId, action) => {
 export const addFavorite = async (tripId) => {
   try {
     const res = await axios.post(
-      `http://localhost:5000/api/favorites/add/${tripId}`,
+      `${import.meta.env.VITE_BACKEND_URL}/api/favorites/add/${tripId}`,
       {},
       { withCredentials: true }
     );
@@ -181,7 +150,7 @@ export const addFavorite = async (tripId) => {
 export const removeFavorite = async (tripId) => {
   try {
     const res = await axios.post(
-      `http://localhost:5000/api/favorites/remove/${tripId}`,
+      `${import.meta.env.VITE_BACKEND_URL}/api/favorites/remove/${tripId}`,
       {},
       { withCredentials: true }
     );
@@ -194,7 +163,7 @@ export const removeFavorite = async (tripId) => {
 // Get all favorites
 export const getFavorites = async () => {
   try {
-    const res = await axios.get("http://localhost:5000/api/favorites", {
+    const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/favorites`, {
       withCredentials: true,
     });
     return res.data; // array of trips

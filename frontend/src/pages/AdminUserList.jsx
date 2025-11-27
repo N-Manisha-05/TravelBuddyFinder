@@ -12,7 +12,7 @@ const AdminUserList = () => {
   const fetchUsers = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.get("http://localhost:5000/api/admin/users", {
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/admin/users`, {
         headers: { Authorization: `Bearer ${token}` },
         withCredentials: true,
       });
@@ -30,7 +30,7 @@ const AdminUserList = () => {
     const token = localStorage.getItem("token");
 
     try {
-      await axios.delete(`http://localhost:5000/api/admin/users/${id}`, {
+      await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/admin/users/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
         withCredentials: true,
       });
@@ -44,7 +44,7 @@ const AdminUserList = () => {
   // Fetch user details for modal
   const fetchUserDetails = async (id) => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/admin/users/${id}`, {
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/admin/users/${id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -63,7 +63,7 @@ const AdminUserList = () => {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.patch(
-        `http://localhost:5000/api/admin/users/${id}/block`,
+       `${import.meta.env.VITE_BACKEND_URL}/api/admin/users/${id}/block`,
         {},
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -82,7 +82,7 @@ const AdminUserList = () => {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.get(
-        `http://localhost:5000/api/admin/users/${userId}/feedback`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/admin/users/${userId}/feedback`,
         {
           headers: { Authorization: `Bearer ${token}` },
           withCredentials: true,
@@ -174,7 +174,7 @@ const AdminUserList = () => {
               <img
                 src={
                   selectedUser.avatar
-                    ? `http://localhost:5000${
+                    ? `${import.meta.env.VITE_BACKEND_URL}${
                         selectedUser.avatar.startsWith("/")
                           ? selectedUser.avatar
                           : "/" + selectedUser.avatar

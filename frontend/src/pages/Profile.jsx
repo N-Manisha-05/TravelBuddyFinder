@@ -36,6 +36,7 @@ const Profile = () => {
     budgetRange: "", favoriteDestinations: "", experienceLevel: "",
     language: "", gender: "", aadharNumber: "",
   });
+  const API = import.meta.env.VITE_BACKEND_URL;
 
   // --- API and Data Handlers ---
   const getAuthHeaders = (isMultipart = false) => {
@@ -53,37 +54,57 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    const fetchProfile = async () => {
-      const authHeaders = getAuthHeaders();
-      if (!authHeaders) return;
+  const fetchProfile = async () => {
+    const authHeaders = getAuthHeaders();
+    if (!authHeaders) return;
 
-      try {
-        const res = await axios.get("http://localhost:5000/api/profile", authHeaders);
-        const userData = res.data.user;
-        setProfile(userData);
-        setFormData({
-          name: userData.name || "",
-          email: userData.email || "",
-          phone: userData.phone || "",
-          bio: userData.bio || "",
-          interests: userData.interests || [],
-          budgetRange: userData.budgetRange || "",
-          favoriteDestinations: (userData.favoriteDestinations || []).join(", "),
-          experienceLevel: userData.experienceLevel || "",
-          language: userData.language || "",
-          gender: userData.gender || "",
-          aadharNumber: userData.aadharNumber || "",
-        });
-        setAvatarPreview(userData.avatar ? `http://localhost:5000${userData.avatar}` : "/default-avatar.png");
-        setAadharPreview(userData.aadharCard ? `http://localhost:5000${userData.aadharCard}` : "");
-      } catch (err) {
-        toast.error("Failed to load profile.");
-        navigate("/login");
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchProfile();
+    try {
+      const res = await axios.get(`${API}/api/profile`, authHeaders);
+      const userData = res.data.user;
+
+      setProfile(userData);
+
+      setFormData({
+        name: userData.name || "",
+        email: userData.email || "",
+        phone: userData.phone || "",
+        bio: userData.bio || "",
+        interests: userData.interests || [],
+        budgetRange: userData.budgetRange || "",
+        favoriteDestinations: (userData.favoriteDestinations || []).join(", "),
+        experienceLevel: userData.experienceLevel || "",
+        language: userData.language || "",
+        gender: userData.gender || "",
+        aadharNumber: userData.aadharNumber || "",
+      });
+
+      // Normalize path helper
+      const normalize = (path) =>
+        path?.startsWith("/") ? path : "/" + path;
+
+      // Avatar Preview
+      setAvatarPreview(
+        userData.avatar
+          ? `${API}${normalize(userData.avatar)}`
+          : "/default-avatar.png"
+      );
+
+      // Aadhar Preview
+      setAadharPreview(
+        userData.aadharCard
+          ? `${API}${normalize(userData.aadharCard)}`
+          : ""
+      );
+
+    } catch (err) {
+      toast.error("Failed to load profile.");
+      navigate("/login");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchProfile();
   }, [navigate]);
 
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -109,18 +130,18 @@ const Profile = () => {
     setIsSaving(true);
     try {
       const updatePromises = [];
-      updatePromises.push(axios.patch("http://localhost:5000/api/profile", formData, getAuthHeaders()));
+      updatePromises.push(axios.patch(`${import.meta.env.VITE_BACKEND_URL}/api/profile`, formData, getAuthHeaders()));
 
       if (avatarFile) {
         const avatarFormData = new FormData();
         avatarFormData.append("avatar", avatarFile);
-        updatePromises.push(axios.post("http://localhost:5000/api/profile/avatar", avatarFormData, getAuthHeaders(true)));
+        updatePromises.push(axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/profile/avatar`, avatarFormData, getAuthHeaders(true)));
       }
       if (aadharFile) {
         const aadharFormData = new FormData();
         // Corrected field name to match backend route
         aadharFormData.append("aadharCard", aadharFile); 
-        updatePromises.push(axios.post("http://localhost:5000/api/profile/aadhar", aadharFormData, getAuthHeaders(true)));
+        updatePromises.push(axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/profile/aadhar`, aadharFormData, getAuthHeaders(true)));
       }
 
       await Promise.all(updatePromises);
@@ -137,31 +158,53 @@ const Profile = () => {
       const authHeaders = getAuthHeaders();
       if (!authHeaders) return;
 
-      try {
-        const res = await axios.get("http://localhost:5000/api/profile", authHeaders);
-        const userData = res.data.user;
-        setProfile(userData);
-        setFormData({
-          name: userData.name || "",
-          email: userData.email || "",
-          phone: userData.phone || "",
-          bio: userData.bio || "",
-          interests: userData.interests || [],
-          budgetRange: userData.budgetRange || "",
-          favoriteDestinations: (userData.favoriteDestinations || []).join(", "),
-          experienceLevel: userData.experienceLevel || "",
-          language: userData.language || "",
-          gender: userData.gender || "",
-          aadharNumber: userData.aadharNumber || "",
-        });
-        setAvatarPreview(userData.avatar ? `http://localhost:5000${userData.avatar}` : "/default-avatar.png");
-        setAadharPreview(userData.aadharCard ? `http://localhost:5000${userData.aadharCard}` : "");
-      } catch (err) {
-        toast.error("Failed to load profile.");
-        navigate("/login");
-      } finally {
-        setLoading(false);
-      }
+     try {
+  const API = import.meta.env.VITE_BACKEND_URL;
+
+  const res = await axios.get(`${API}/api/profile`, authHeaders);
+  const userData = res.data.user;
+
+  setProfile(userData);
+
+  setFormData({
+    name: userData.name || "",
+    email: userData.email || "",
+    phone: userData.phone || "",
+    bio: userData.bio || "",
+    interests: userData.interests || [],
+    budgetRange: userData.budgetRange || "",
+    favoriteDestinations: (userData.favoriteDestinations || []).join(", "),
+    experienceLevel: userData.experienceLevel || "",
+    language: userData.language || "",
+    gender: userData.gender || "",
+    aadharNumber: userData.aadharNumber || "",
+  });
+
+  // Normalize paths to avoid "//uploads"
+  const normalize = (path) =>
+    path?.startsWith("/") ? path : "/" + path;
+
+  // Avatar preview
+  setAvatarPreview(
+    userData.avatar
+      ? `${API}${normalize(userData.avatar)}`
+      : "/default-avatar.png"
+  );
+
+  // Aadhar preview
+  setAadharPreview(
+    userData.aadharCard
+      ? `${API}${normalize(userData.aadharCard)}`
+      : ""
+  );
+
+} catch (err) {
+  toast.error("Failed to load profile.");
+  navigate("/login");
+} finally {
+  setLoading(false);
+}
+
     };
       await fetchProfile(); // Re-fetch all data to get the latest state
     }

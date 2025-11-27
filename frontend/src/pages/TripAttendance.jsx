@@ -29,15 +29,22 @@ const ParticipantModal = ({ user, onClose }) => {
                         <X size={24} />
                     </button>
                 </div>
-                <div className="flex flex-col items-center mt-4">
-                    <img
-                        src={user.avatar ? `http://localhost:5000${user.avatar}` : '/default-avatar.png'}
-                        alt={user.name}
-                        className="w-24 h-24 rounded-full object-cover border-4 border-blue-500 mb-4"
-                    />
-                    <h3 className="text-xl font-semibold">{user.name}</h3>
-                    <p className="text-sm text-gray-500">{user.email}</p>
+               <div className="flex flex-col items-center mt-4">
+                <img
+                    src={
+                    user.avatar
+                        ? `${import.meta.env.VITE_BACKEND_URL}${
+                            user.avatar.startsWith("/") ? user.avatar : "/" + user.avatar
+                        }`
+                        : "/default-avatar.png"
+                    }
+                    alt={user.name}
+                    className="w-24 h-24 rounded-full object-cover border-4 border-blue-500 mb-4"
+                />
+                <h3 className="text-xl font-semibold">{user.name}</h3>
+                <p className="text-sm text-gray-500">{user.email}</p>
                 </div>
+
                 <div className="mt-6 border-t pt-4 space-y-3 text-sm">
                     <p className="flex items-center">
                         <Info className="mr-2 text-gray-500" size={16} />
@@ -182,17 +189,22 @@ const TripAttendance = () => {
                                             onClick={() => setSelectedParticipant(p)}
                                             className="hover:bg-blue-50 cursor-pointer transition-colors"
                                         >
-                                            <td className="p-4 flex items-center gap-3">
-                                                <img 
-                                                    src={p.avatar ? `http://localhost:5000${p.avatar}` : '/default-avatar.png'} 
-                                                    alt={p.name} 
-                                                    className="w-12 h-12 rounded-full object-cover" 
+                                           <td className="p-4 flex items-center gap-3">
+                                                <img
+                                                    src={
+                                                    p.avatar
+                                                        ? `${import.meta.env.VITE_BACKEND_URL}${p.avatar.startsWith("/") ? p.avatar : "/" + p.avatar}`
+                                                        : "/default-avatar.png"
+                                                    }
+                                                    alt={p.name}
+                                                    className="w-12 h-12 rounded-full object-cover"
                                                 />
                                                 <div>
                                                     <p className="font-semibold text-gray-800">{p.name}</p>
                                                     <p className="text-sm text-gray-500">{p.email}</p>
                                                 </div>
-                                            </td>
+                                                </td>
+
                                             <td className="p-4">
                                                 {p.verified ? (
                                                     <span className="flex items-center gap-1.5 text-sm font-medium text-green-700">

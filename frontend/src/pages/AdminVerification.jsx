@@ -12,7 +12,7 @@ const AdminVerification = () => {
   const fetchUnverifiedUsers = async () => {
     try {
       const token = localStorage.getItem("token"); // Assuming you store the token
-      const res = await axios.get("http://localhost:5000/api/admin/users/unverified", {
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/admin/users/unverified`, {
         headers: { Authorization: `Bearer ${token}` },
         withCredentials: true,
       });
@@ -33,7 +33,7 @@ const AdminVerification = () => {
     try {
       const token = localStorage.getItem("token");
       await axios.patch(
-        `http://localhost:5000/api/admin/users/${id}/verify`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/admin/users/${id}/verify`,
         {}, // No body needed
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -57,7 +57,7 @@ const AdminVerification = () => {
     const token = localStorage.getItem("token");
 
     await axios.patch(
-      `http://localhost:5000/api/admin/users/${id}/reject`,
+     `${import.meta.env.VITE_BACKEND_URL}/api/admin/users/${id}/reject`,
       {},
       {
         headers: { Authorization: `Bearer ${token}` },
@@ -109,7 +109,7 @@ const AdminVerification = () => {
                 <td className="p-3 border text-center">
                   {user.aadharCard ? (
                     <a
-                      href={`http://localhost:5000/${user.aadharCard.replace(/\\/g, "/")}`}
+                      href={`${import.meta.env.VITE_BACKEND_URL}/${user.aadharCard.replace(/\\/g, "/")}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-blue-600 hover:underline"
